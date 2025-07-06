@@ -7,22 +7,20 @@ import App from './App';
 import md5 from "md5";
 
 function LoginPage () {
-    const {spotifyPlayer, setSpotifyPlayer, songDetails, setSongDetails, isSearch, setIsSearch} = useContext(PlayerContext);
+    // const {spotifyPlayer, setSpotifyPlayer, songDetails, setSongDetails, isSearch, setIsSearch} = useContext(PlayerContext || null);
     const navigate = useNavigate();
     console.log("inside LoginPage.js");
-    console.log(spotifyPlayer !== null);
+    // console.log(spotifyPlayer !== null);
 
     useEffect (() => {
             if (window.localStorage.getItem("username") !== null) {
-                console.log("endhuku ivanni niku");
                 navigate('/');
             }
-            console.log(md5("Ssp@gmail8"));
         }, [navigate]);
 
     async function handleSubmit (e) {
         e.preventDefault();
-        console.log(spotifyPlayer !== null);
+        // console.log(spotifyPlayer !== null);
         const username = e.target.username.value;
         const hashedPassword = md5(e.target.password.value);
         console.log(hashedPassword);

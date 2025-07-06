@@ -18,7 +18,7 @@ const socket = getSocket();
 function App(){
 
     const [message,setMessage] = useState(null);
-    const {spotifyPlayer} = useContext(PlayerContext);
+    // const {spotifyPlayer} = useContext(PlayerContext);
     //Removing previously searched items from Search component
     useEffect ( () => {
         if (window.localStorage.getItem("searchedUser"))

@@ -18,7 +18,7 @@ function Login() {
     
     return (
         <div>
-            <a style = {loginButtonStyle} href = "https://localhost:3001/login" >Login To Spotify</a>
+            <a style = {loginButtonStyle} href = "http://localhost:3002/login" >Login To Spotify</a>
         </div>
 
     );

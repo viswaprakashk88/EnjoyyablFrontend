@@ -1,10 +1,12 @@
-import React, { createContext, useState} from 'react';
+import React, { createContext, useEffect, useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './LoginPage';
+import Temp from './Temp';
+import Login from './Login';
 
 export const PlayerContext = createContext();
 
@@ -22,7 +24,19 @@ function IndexHelp () {
     const [groupMembers,setGroupMembers] = useState([]);
     const [createdOn, setCreatedOn] = useState("");
     const [groupId, setGroupId] = useState("");
-    console.log("phone lo nunchi");
+
+    //This code is for Test API fetching data from Spring Boot Backend
+    // async function springTest () {
+    //   var response = await fetch ("http://localhost:3002/firstCall");
+    //   console.log(response);
+    // }
+    // useEffect( () => {
+    //   springTest();
+    // }, []);
+
+    
+
+
     //Spotify Web Playback Initialiazation
     window.onSpotifyWebPlaybackSDKReady = async () => {
         const player = new window.Spotify.Player({
@@ -32,14 +46,15 @@ function IndexHelp () {
         });
         //Setting the spotifyPlayer
         setSpotifyPlayer(player);
-        // console.log(window.localStorage.getItem("username"));
+        console.log(spotifyPlayer);
     }
     return (
         (spotifyPlayer) ?
             (<PlayerContext.Provider value={{ spotifyPlayer, setSpotifyPlayer, songDetails, setSongDetails, partyMode, setPartyMode, groupTab, setGroupTab, groupName, setGroupName, groupMembers, setGroupMembers, createdOn, setCreatedOn, groupId, setGroupId}}>
                 <App />
             </PlayerContext.Provider> )
-            : (<div>Loading...</div>)
+            : (<App/>)
+        // <Temp/>
     );
 
 
