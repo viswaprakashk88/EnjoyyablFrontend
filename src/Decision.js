@@ -16,11 +16,13 @@ function Decision () {
     const [message, setMessage] = useState(null);
     const [spotifyLogged, setSpotifyLogged] = useState(false);
     const [applicationLogged, setApplicationLogged] = useState(false);
-    // const {spotifyPlayer} = useContext(PlayerContext);
+    const {spotifyPlayer} = useContext(PlayerContext);
     const [premium, setPremium] = useState(false);
     const navigate = useNavigate();
     
     useEffect ( () => {
+        console.log("In App.js");
+        console.log(spotifyPlayer === true);
         if (window.localStorage.getItem("accessToken") === null ) {
             navigate('/');
         }

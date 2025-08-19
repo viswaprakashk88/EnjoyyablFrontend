@@ -19,9 +19,6 @@ function SearchUser () {
             setSearchedUserList(window.localStorage.getItem("searchedUserList") !== "undefined" ? JSON.parse(window.localStorage.getItem("searchedUserList")) : []);
             // setCurrentSearch(window.localStorage.getItem("searchedUser"));
         }
-        else {
-            window.localStorage.removeItem("connections");
-        }
     },[]);
     //Searching for Users
     const searchUser = async (e) => {
@@ -30,7 +27,7 @@ function SearchUser () {
             setSearched(true);
             setCurrentSearch("Showing Results For " + searchUserValue);
             //Retrieving Users having "searchUserValue" in their Name or Username
-            var users = await fetch("https://localhost:3001/searchUser", {
+            var users = await fetch(`${BACKEND}/searchUser`, {
                 method : "POST",
                 headers : {
                     "Content-Type": "application/json",
@@ -42,7 +39,7 @@ function SearchUser () {
             });
             users = await users.json();
             //Getting the connection requests sent by the current user 
-            var requests = await fetch("https://localhost:3001/getRequests", {
+            var requests = await fetch(`${BACKEND}/getRequests`, {
                 method : "POST",
                 headers : {
                     "Content-Type": "application/json",
@@ -55,15 +52,16 @@ function SearchUser () {
             requests = await requests.json();
             console.log("Requests and Friends");
             console.log(requests);
-            var tempRequests = requests["items"]["Items"];
+            var tempRequests = requests["requests"];
+            console.log(tempRequests);
             for(var i = 0; i < tempRequests.length; i++)
             {
-                var tempUsernames = tempRequests[i].username.split("#&#");
-                var tempUsername = (tempUsernames[0] === window.localStorage.getItem("username")) ? tempUsernames[1] : tempUsernames[0];
-                // if (tempUsername)
-                dict[tempUsername] = tempRequests[i].friendshipStatus;
-                
-                dict[tempUsername] += (tempUsernames[1] === window.localStorage.getItem("username") && dict[tempUsername] !== "friends") ? " you" : "";
+                if (tempRequests[i].toUsername === window.localStorage.getItem("username")) {
+                    dict[tempRequests[i].fromUsername] = tempRequests[i].frienshipStatus === "friends" ? "friends" : "accept";
+                }
+                else if (tempRequests[i].fromUsername === window.localStorage.getItem("username")) {
+                    dict[tempRequests[i].toUsername] = tempRequests[i].frienshipStatus === "friends" ? "friends" : "requested";
+                }
             }
             window.localStorage.setItem("connections", JSON.stringify(dict));
             const temp = currentSearch + "" ;
@@ -111,7 +109,13 @@ function SearchUser () {
                 {searchedUserList.length < 1 && searched && <img src = {LoadingAnimation} style = {{width: "100px",height: "100px"}} />}
                 {!searched && searchedUserList.length < 1 && <img style = {{width: "270px",height: "200px", borderRadius: "10px"}} src = {SearchUserAnimation} />}
             </center>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/><br/>
         </div>
+        
     );
 }
 export default SearchUser;

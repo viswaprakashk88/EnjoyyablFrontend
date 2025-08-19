@@ -42,7 +42,7 @@ function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        var response = await fetch("https://localhost:3001/validateSignup", {
+        var response = await fetch(`${BACKEND}/validateSignup`, {
             method : "POST",
             headers: {
                 "Content-Type": "application/json",

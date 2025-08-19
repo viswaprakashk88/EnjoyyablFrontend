@@ -20,7 +20,7 @@ function CreateGroup () {
         }
         else {
             const getFriends = async () => {
-                var response = await fetch ("https://localhost:3001/getFriends", {
+                var response = await fetch (`${BACKEND}/getFriends`, {
                     method : "POST",
                     headers : {
                         "Content-Type" : "application/json"

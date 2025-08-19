@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 function RequestCard ({userData}) {
-    var name = userData.name.split("#&#")[0];
-    name = name.split(" ").map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(" ");
-    const username = userData.username.split("#&#")[0];
+    var name = userData.fromName;
+    const username = userData.fromUsername;
     const [buttonText, setButtonText] = useState("Accept");
     
     const accept = async (e) => {
@@ -11,7 +10,7 @@ function RequestCard ({userData}) {
         document.getElementById("requestButton_" + e.target.value).classList.add("userCardRequestButtonDisabled");
         document.getElementById("requestButton_" + e.target.value).classList.remove("userCardRequestButtonEnabled");
         const time = e.target.value;
-        var acceptance = await fetch("https://localhost:3001/acceptRequest", {
+        var acceptance = await fetch(`${BACKEND}/acceptRequest`, {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json"

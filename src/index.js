@@ -13,7 +13,7 @@ export const PlayerContext = createContext();
 
 
 
-const extractedSong = JSON.parse(window.localStorage.getItem("songDetails"));
+const extractedSong = JSON.parse(window.localStorage.getItem("songDetails")) || "";
 
 function IndexHelp () {
     const [spotifyPlayer, setSpotifyPlayer] = useState(null);
@@ -25,36 +25,31 @@ function IndexHelp () {
     const [createdOn, setCreatedOn] = useState("");
     const [groupId, setGroupId] = useState("");
 
-    //This code is for Test API fetching data from Spring Boot Backend
-    // async function springTest () {
-    //   var response = await fetch ("http://localhost:3002/firstCall");
-    //   console.log(response);
-    // }
-    // useEffect( () => {
-    //   springTest();
-    // }, []);
-
     
 
 
     //Spotify Web Playback Initialiazation
-    window.onSpotifyWebPlaybackSDKReady = async () => {
-        const player = new window.Spotify.Player({
-            name : 'Prakash Application for Spotify',
-            getOAuthToken : callback => { callback(window.localStorage.getItem('accessToken'))},
-            volume : 1.0
-        });
-        //Setting the spotifyPlayer
-        setSpotifyPlayer(player);
-        console.log(spotifyPlayer);
-    }
+    useEffect(() => {
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const player = new window.Spotify.Player({
+            name: 'Prakash Application for Spotify',
+            getOAuthToken: callback => {
+                callback(window.localStorage.getItem('accessToken'));
+            },
+            volume: 1.0,
+            });
+            setSpotifyPlayer(player);
+            console.log("Spotify Player initialized");
+        };
+    }, []);
+
+    console.log("hi");
+    console.log(spotifyPlayer);
+    console.log("hi");
     return (
-        (spotifyPlayer) ?
-            (<PlayerContext.Provider value={{ spotifyPlayer, setSpotifyPlayer, songDetails, setSongDetails, partyMode, setPartyMode, groupTab, setGroupTab, groupName, setGroupName, groupMembers, setGroupMembers, createdOn, setCreatedOn, groupId, setGroupId}}>
+            (spotifyPlayer) ?<PlayerContext.Provider value={{ spotifyPlayer, setSpotifyPlayer, songDetails, setSongDetails, partyMode, setPartyMode, groupTab, setGroupTab, groupName, setGroupName, groupMembers, setGroupMembers, createdOn, setCreatedOn, groupId, setGroupId}}>
                 <App />
-            </PlayerContext.Provider> )
-            : (<App/>)
-        // <Temp/>
+            </PlayerContext.Provider> : <div>Loading...</div>
     );
 
 

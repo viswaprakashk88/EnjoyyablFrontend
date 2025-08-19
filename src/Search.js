@@ -14,6 +14,8 @@ function Search() {
     const [songClick, setSongClick] = useState(0);
 
     useEffect ( () => {
+
+        
         //Getting the already cached data into the page
         if (window.localStorage.getItem("searchedSongsList") && window.localStorage.getItem("searchedSongsList") !== "undefined")
         {
@@ -74,7 +76,7 @@ function Search() {
             <center>
                 <input type = "text" name = 'searchSong' id = 'searchSong' onKeyPress={searchSong} className = "searchBar" placeholder='Hit Enter To Search Something' spellCheck = "false" />
                 <div id = "songsList">
-                    <h4 id = "searchedSongName" style = { {color: "#14f5cf", paddingBottom: "10px"} }>{ currentQueryString !== "" && currentQueryString.split(" ").map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(" ")}</h4>
+                    <h2 id = "searchedSongName" style = { {color: "#14f5cf", padding: "0px"} }>{ currentQueryString !== "" && currentQueryString.split(" ").map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(" ")}</h2>
                     <table style = {{width: "auto"}} onClick = {handleSongClick}>
                         <tbody key={songClick}>
                             {searchedList.map((item, index) => (

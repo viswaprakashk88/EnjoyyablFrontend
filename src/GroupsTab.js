@@ -9,7 +9,7 @@ function GroupsTab () {
 
     useState( async () => {
         if ( !window.localStorage.getItem("groups") ) {
-            var groups = await fetch ("https://localhost:3001/getGroups", {
+            var groups = await fetch (`${BACKEND}/getGroups`, {
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json"

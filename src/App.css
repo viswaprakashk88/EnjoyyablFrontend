@@ -13,6 +13,10 @@
   }
 }
 
+body {
+  background-color: black;
+}
+
 table {
   border-collapse: separate;
   border-spacing: 0;
@@ -37,9 +41,10 @@ table {
   position: fixed;
   bottom: 0px;
   background-color: #212121;
-  height: 105px;
-  padding-top:7px;
+  height: 95px;
+  padding-top:14px;
   align-items: center;
+
 }
 .paddingPlay{
   padding: 30px 25px;
@@ -48,6 +53,8 @@ table {
 .input[type="text"] {
   border: 2px solid #61dafb;
   font-size: 30px;
+  padding: 0px;
+
 }
 
 input[type="range"] {
@@ -59,7 +66,8 @@ input[type="range"] {
   margin: 10px 0px 10px 0px;
   /* accent-color: ; */
   border-radius: 5px;
-  box-shadow:  0 20px 30px 0 rgba(1, 9, 251, 0.2), 0 10px 20px 0 rgba(4, 91, 241, 0.19);
+  /* box-shadow:  10px 30px 30px 0 rgba(1, 9, 251, 0.2), 0 10px 20px 0 rgba(4, 91, 241, 0.19); */
+  box-shadow: 0 20px 30px 0 rgba(1, 9, 251, 0.2), 0 10px 20px 0 rgba(4, 91, 241, 0.19);
 }
 
 .disableSelect {
@@ -209,7 +217,7 @@ input[type="range"] {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  width: 300px;
+  width: 320px;
   word-wrap: break-word;
 }
 
@@ -442,18 +450,23 @@ ul {
   height: 38px;
   outline: 0;
   border: solid 1px #8684f2;
-  padding: 20px;
+  padding: 10px 20px;
   border-radius: 5px;
+  font-size: 17px;
+  font-weight: bold;
 }
 .profileInput:disabled {
   color: black;
   height: 38px;
   outline: 0;
   border: solid 1px #8684f2;
-  padding: 20px;
+  padding: 10px 20px;
   border-radius: 5px;
   background-color: #fff;
   cursor: not-allowed;
+  margin-top: 5px;
+  font-size: 17px;
+  font-weight: bold;
 }
 .container {
   display: grid;
@@ -476,7 +489,7 @@ ul {
     width: 90%;
   }
   .center {
-    width: 70%;
+    width: 20%;
   }
   input[type="range"] {
     width: 50%;

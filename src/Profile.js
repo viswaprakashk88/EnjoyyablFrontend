@@ -22,7 +22,7 @@ function Profile () {
       }, [userDetails.name]);
 
     const handleUpdate = async () => {
-        var updateName = await fetch("https://localhost:3001/updateName", {
+        var updateName = await fetch(`${BACKEND}/updateName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -82,7 +82,7 @@ function Profile () {
                                 <td style = {{fontSize: "20px", color: "#03fcb6"}} >
                                     <b>Username</b>
                                     <br/>
-                                    <input disabled = {true} className = "profileInput" type = "text" name = 'username' value = {userDetails.user} spellCheck = "false" />
+                                    <input disabled = {true} className = "profileInput" type = "text" name = 'username' value = {userDetails.username} spellCheck = "false" />
                                 </td>
                             </tr>
                         </table>

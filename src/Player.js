@@ -203,7 +203,7 @@ function Player () {
         </div>
         <div className = 'center'>
           <center>
-            <b style = {{paddingTop : "10px", fontSize: "17px"}}>{Math.floor(sliderValue/60000) < 10 && '0'}{Math.floor(sliderValue/60000)}:{Math.floor(sliderValue/1000) % 60 < 10 && '0'}{Math.floor(sliderValue/1000)  % 60}</b>
+            <b style = {{marginTop : "30px", fontSize: "17px"}}>{Math.floor(sliderValue/60000) < 10 && '0'}{Math.floor(sliderValue/60000)}:{Math.floor(sliderValue/1000) % 60 < 10 && '0'}{Math.floor(sliderValue/1000)  % 60}</b>
             &emsp;
             <input type = "range" min = "0" value = {sliderValue} onChange = {handleSliderChange} max = {songDetails ? songDetails.duration_ms.toString() : 0} id = "playerSlider" />
             &emsp;

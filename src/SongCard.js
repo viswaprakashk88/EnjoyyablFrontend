@@ -20,7 +20,7 @@ function SongCard ({songDetails, index}) {
                 <img width = "45px" height = "40px" className = 'songCardAlign songCardImage' src = {songDetails.album.images.length>0 && songDetails.album.images[2].url} />
             </td>
             <td>
-                <h4 className = 'songCardAlign' style = {{color : isCurrentSong ? "#49f5a2" : "#fff", textShadow: isCurrentSong ? "2px 1px 6px #49f5a2" : ""}}>{songDetails.name.length >= 40 ? songDetails.name.slice(0,39) : songDetails.name}{songDetails.name.length >= 40 ? "..." : ""}</h4>
+                <h2 className = 'songCardAlign' style = {{margin: "-10px 10px",color : isCurrentSong ? "#49f5a2" : "#fff", textShadow: isCurrentSong ? "2px 1px 6px #49f5a2" : ""}}>{songDetails.name.length >= 40 ? songDetails.name.slice(0,39) : songDetails.name}{songDetails.name.length >= 40 ? "..." : ""}</h2>
             </td>
             {/* <td>
                 <i className = "fa-sharp fa-solid fa-plus songCardAlign songCardAlignIcon"></i>

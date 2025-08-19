@@ -3,17 +3,23 @@ import React, { useEffect, useState } from 'react';
 function UserCard ({userData}) {
     const connections = JSON.parse(window.localStorage.getItem("connections"));
     const [friendStatus, setFriendStatus] = useState("Connect");
-    var name = userData.name.split("#%#");
-    var name = name[0] === window.localStorage.getItem("name") ? name[1] : name[0];
-    const presentName = window.localStorage.getItem("name");
+    var name = userData.name.split(' '),tempName="";
+    for (let i=0;i<name.length;i++) {tempName +=  name[i].charAt(0).toUpperCase() + name[i].slice(1) + " ";}
+    name = tempName.slice(0,tempName.length-1);
     useEffect( () => {
+        console.log(userData);
         if (connections && userData.user in connections && document.getElementById("requestButton_" + userData.user)) {
 
-            setFriendStatus(connections[userData.user] === "friends" ? "✅Friends" : (connections[userData.user] === "requested you" ? "Requested You" : "Request Sent"));
+            setFriendStatus(connections[userData.user] === "friends" ? "✅Friends" : (connections[userData.user] === "accept" ? "✅Accept" : "Request Sent"));
             
             document.getElementById("requestButton_" + userData.user).disabled = true;
             document.getElementById("requestButton_" + userData.user).classList.remove("userCardRequestButtonEnabled");
             document.getElementById("requestButton_" + userData.user).classList.add("userCardRequestButtonDisabled");
+        } else {
+            setFriendStatus("Connect");
+            document.getElementById("requestButton_" + userData.user).disabled = false;
+            document.getElementById("requestButton_" + userData.user).classList.add("userCardRequestButtonEnabled");
+            document.getElementById("requestButton_" + userData.user).classList.remove("userCardRequestButtonDisabled");
         }
     });
     const request = async (e) => {
@@ -22,7 +28,7 @@ function UserCard ({userData}) {
         const nameCurrentUser = JSON.parse(window.localStorage.getItem("userInfo"));
 
 
-        var result = await fetch("https://localhost:3001/sendConnectionRequest", {
+        var result = await fetch(`${BACKEND}/sendConnectionRequest`, {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json",
@@ -36,8 +42,7 @@ function UserCard ({userData}) {
             })
         });
         result = await result.json();
-        // console.log(result);
-        setFriendStatus("Requested")
+        setFriendStatus("Request Sent")
         document.getElementById("requestButton_" + userData.user).disabled = true;
         document.getElementById("requestButton_" + userData.user).classList.remove("userCardRequestButtonEnabled");
         document.getElementById("requestButton_" + userData.user).classList.add("userCardRequestButtonDisabled");

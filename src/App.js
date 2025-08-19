@@ -18,9 +18,14 @@ const socket = getSocket();
 function App(){
 
     const [message,setMessage] = useState(null);
+    const {spotifyPlayer} = useContext(PlayerContext);
+    console.log("In App.js");
+    console.log(spotifyPlayer === true);
     // const {spotifyPlayer} = useContext(PlayerContext);
     //Removing previously searched items from Search component
     useEffect ( () => {
+
+        console.log(spotifyPlayer);
         if (window.localStorage.getItem("searchedUser"))
         {
             window.localStorage.removeItem("searchedUser");
@@ -43,15 +48,15 @@ function App(){
         
             if(!window.localStorage.getItem('accessToken')){
                 console.log("time diff is not more than 1 hour");
-                await fetch('https://localhost:3001/accessToken?code=' + code, {
-                    method : 'GET'
-                }).then(res => res.json())
-                .then(data => {
-                    window.localStorage.setItem('accessToken', data.accessToken);
-                    window.localStorage.setItem('refreshToken', data.refreshToken);
-                    const currentDateTime = new Date();
-                    window.localStorage.setItem('accessTokenTime', currentDateTime);
-                })
+
+                var accessTokenResponse = await fetch('http://localhost:3001/accessToken?coded=' + code);
+                accessTokenResponse = await accessTokenResponse.json();
+
+                window.localStorage.setItem('accessToken', accessTokenResponse.accessToken);
+                window.localStorage.setItem('refreshToken', accessTokenResponse.refreshToken);
+                const currentDateTime = new Date();
+                console.log(accessTokenResponse);
+                window.localStorage.setItem('accessTokenTime', currentDateTime);
             }
             else{
 
@@ -66,7 +71,7 @@ function App(){
                 //If the time difference is greater than an hour, retrieve the accessToken again
                 if (timeGapAccessToken > 3600) {
                     console.log("Inside refresh token");
-                    var accessTokenRefresh = await fetch('https://localhost:3001/refreshToken', {
+                    var accessTokenRefresh = await fetch('http://localhost:3001/refreshToken', {
                         method : 'POST',
                         headers: { 
                             'Content-Type': 'application/json'

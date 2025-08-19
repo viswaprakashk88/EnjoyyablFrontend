@@ -4,29 +4,32 @@ import leftArrow from './leftArrow.png';
 
 function OpenGroup () {
     const {groupName, setGroupTab, groupMembers, createdOn, groupId} = useContext(PlayerContext);
-    const cachedNames = window.localStorage.getItem("group_" + groupId) ? JSON.parse(window.localStorage.getItem("group_" + groupId)) : [];
+    const cachedNames = window.localStorage.getItem("group_" + groupId) && window.localStorage.getItem("group_" + groupId) !== "undefined" ? JSON.parse(window.localStorage.getItem("group_" + groupId)) : [];
     const [groupMembersList,setGroupMembersList] = useState(cachedNames || []);
     const handleBackButton = () => {
         setGroupTab(1);
     };
     useEffect ( () => {
-        if (!window.localStorage.getItem("group_" + groupId)) {
+        console.log(window.localStorage.getItem("group_" + groupId));
+        if (!window.localStorage.getItem("group_" + groupId) || window.localStorage.getItem("group_" + groupId) === "undefined") {
             const getNames = async () => {
-                var names = await fetch("https://localhost:3001/getNames", {
+                console.log(groupMembers);
+                var names = await fetch(`${BACKEND}/getNames`, {
                     method: "POST",
                     body: JSON.stringify({
-                        usernames: groupMembers
+                        usernames:  groupMembers
                     }),
                     headers: {
                         "Content-Type": "application/json"
                     }
                 });
                 names = await names.json();
-                if (!names.ok) {
+                if (!names.ok && names.ok !== "true") {
                     console.log("Something Went Wrong!");
                     console.log(names.error_message)
                 }
                 else {
+                    console.log(names);
                     setGroupMembersList(names["items"]);
                     window.localStorage.setItem("group_" + groupId,JSON.stringify(names["items"]));
                 }

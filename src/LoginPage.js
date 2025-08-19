@@ -25,7 +25,16 @@ function LoginPage () {
         const hashedPassword = md5(e.target.password.value);
         console.log(hashedPassword);
         
-        const loginSuccess = await fetch("https://localhost:3001/checkLoginCredentials?un=" + username + "&pw=" + hashedPassword);
+        const loginSuccess = await fetch(`${BACKEND}/checkLoginCredentials`, {
+            method: "POST",
+            body : JSON.stringify({
+                username: username,
+                password: hashedPassword
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         const loginSuccessJSON = await loginSuccess.json();
         console.log(loginSuccessJSON);
 

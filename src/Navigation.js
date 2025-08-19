@@ -17,10 +17,13 @@ function Navigation() {
 
     const [tabNumber, setTabNumber] = useState(1);
     const [profileHover, setProfileHover] = useState(false);
-    const {spotifyPlayer, partyMode, setPartyMode} = useContext(PlayerContext);
+    const {spotifyPlayer} = useContext(PlayerContext);
+    // const {spotifyPlayer, partyMode, setPartyMode} = useContext(PlayerContext);
 
     const navigate = useNavigate();
     useEffect ( () => {
+        console.log("In App.js");
+        console.log(spotifyPlayer === true);
         if (window.localStorage.getItem("username") === null) {
             navigate("/");
         }
@@ -31,7 +34,7 @@ function Navigation() {
             }
         });
         async function getUserInfo () {
-            var userInfo = await fetch("https://localhost:3001/getUserInfo", {
+            var userInfo = await fetch(`${BACKEND}/getUserInfo`, {
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json"
@@ -41,8 +44,11 @@ function Navigation() {
                 })
             });
             userInfo = await userInfo.json();
-            window.localStorage.setItem("userInfo",JSON.stringify(userInfo["items"]["Items"][0]));
-            window.localStorage.setItem("name",userInfo["items"]["Items"][0].name);
+            console.log(userInfo);
+            if (userInfo["items"].length > 0) {
+                window.localStorage.setItem("userInfo",JSON.stringify(userInfo["items"][0]));
+                window.localStorage.setItem("name",userInfo["items"][0].name);
+            }
         }
         getUserInfo();
         if (window.localStorage.getItem("searchedSongName")) {
@@ -54,7 +60,7 @@ function Navigation() {
 
     useEffect ( () => {
         async function getRequests () {
-            var requests = await fetch("https://localhost:3001/getAllRequests", {
+            var requests = await fetch(`${BACKEND}/getAllRequests`, {
                 method : "POST",
                 headers : {
                     "Content-Type": "application/json",
@@ -65,22 +71,21 @@ function Navigation() {
             });
             requests = await requests.json();
             console.log(requests);
-            window.localStorage.setItem("requestsList",JSON.stringify(requests["items"]));
-            window.localStorage.setItem("requestsCount", requests["items"].length);
+            if (requests["items"].length > 0) {
+                window.localStorage.setItem("requestsList",JSON.stringify(requests["items"]));
+                window.localStorage.setItem("requestsCount", requests["items"].length);
+            }
         }
         getRequests();
     }, []);
 
     useEffect( () => {
-        if (tabNumber !== 2 && window.localStorage.getItem("connections") && !window.localStorage.getItem("searchedUser")) {
-            window.localStorage.removeItem("connections");
-        }
         handleAccessTokenExpiry();
     }, [tabNumber]);
 
     const handleLogout = () => {
         window.localStorage.clear();
-        spotifyPlayer.disconnect();
+        // spotifyPlayer.disconnect();
         navigate("/");
     }
 
@@ -96,7 +101,7 @@ function Navigation() {
         const timeGapAccessToken = Math.floor((presentTime - lastTokenTime)/1000);
         const refreshToken = window.localStorage.getItem('refreshToken');
         if (timeGapAccessToken > 3600) {
-            var accessTokenRefresh = await fetch('https://localhost:3001/refreshToken?refreshToken=' + refreshToken, {
+            var accessTokenRefresh = await fetch('http://localhost:3001/refreshToken?refreshToken=' + refreshToken, {
                 method : 'GET'
             });
             accessTokenRefresh = await accessTokenRefresh.json();
@@ -111,8 +116,8 @@ function Navigation() {
                 <i className="fa fa-user profile-icon" aria-hidden="true" id = "profileIcon" onMouseOver = {() => {setProfileHover(true)} } onMouseLeave = { () => {setTimeout(() => {setProfileHover(false)}, 2000)} }></i>
                 <div>
                     <ul id = "profileDropdown" onMouseOver={() => {setProfileHover(true)}} onMouseLeave={() => {setProfileHover(false)}} style = {{display: profileHover ? "inline" : "none"}}>
-                        <li onClick = {handleProfile}>Profile</li>
-                        <li onClick = {handleLogout}>Log Out</li>
+                        <li style = {{padding: "5px 10px"}} onClick = {handleProfile}>Profile</li>
+                        <li style = {{padding: "5px 10px"}} onClick = {handleLogout}>Log Out</li>
                     </ul>
                 </div>
             </div>
