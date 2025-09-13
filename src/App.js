@@ -70,7 +70,7 @@ function App(){
                 console.log("time diff is more than 1 hour" + timeGapAccessToken);
                 //If the time difference is greater than an hour, retrieve the accessToken again
                 if (timeGapAccessToken > 3600) {
-                    console.log("Inside refresh token");
+                    console.log("Inside refresh tokenn");
                     var accessTokenRefresh = await fetch('http://localhost:3001/refreshToken', {
                         method : 'POST',
                         headers: { 
