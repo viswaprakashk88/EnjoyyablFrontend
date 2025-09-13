@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import md5 from "md5";
 
 function SignUp() {
+    const backend = process.env.REACT_APP_BACKEND;
     const navigate = useNavigate();
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -42,12 +43,13 @@ function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        var response = await fetch(`${BACKEND}/validateSignup`, {
+        var response = await fetch(`${backend}/validateSignup`, {
             method : "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body : JSON.stringify({
+                backendToken: window.localStorage.getItem("backendToken"),
                 username : e.target.username.value.toLowerCase(),
                 name : e.target.name.value.toLowerCase(),
                 email : e.target.email.value.toLowerCase(),

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import EditIcon from './EditIcon.png';
 
 function Profile () {
+    const backend = process.env.REACT_APP_BACKEND;
     const [userDetails, setUserDetails] = useState(JSON.parse(window.localStorage.getItem("userInfo")));
     const [editMode, setEditMode] = useState(false);
     const [name, setName] = useState("");
@@ -22,12 +23,13 @@ function Profile () {
       }, [userDetails.name]);
 
     const handleUpdate = async () => {
-        var updateName = await fetch(`${BACKEND}/updateName`, {
+        var updateName = await fetch(`${backend}/updateName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                backendToken: window.localStorage.getItem("backendToken"),
                 name: name,
                 username: window.localStorage.getItem("username")
             })

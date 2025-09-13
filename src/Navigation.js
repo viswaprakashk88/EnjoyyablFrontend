@@ -14,6 +14,7 @@ import Profile from './Profile';
 const socket = getSocket();
 // export const tabContext = createContext();
 function Navigation() {
+    const backend = process.env.REACT_APP_BACKEND;
 
     const [tabNumber, setTabNumber] = useState(1);
     const [profileHover, setProfileHover] = useState(false);
@@ -34,12 +35,13 @@ function Navigation() {
             }
         });
         async function getUserInfo () {
-            var userInfo = await fetch(`${BACKEND}/getUserInfo`, {
+            var userInfo = await fetch(`${backend}/getUserInfo`, {
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json"
                 },
                 body : JSON.stringify({
+                    backendToken: window.localStorage.getItem("backendToken"),
                     username : window.localStorage.getItem("username")
                 })
             });
@@ -60,12 +62,13 @@ function Navigation() {
 
     useEffect ( () => {
         async function getRequests () {
-            var requests = await fetch(`${BACKEND}/getAllRequests`, {
+            var requests = await fetch(`${backend}/getAllRequests`, {
                 method : "POST",
                 headers : {
                     "Content-Type": "application/json",
                 },
                 body : JSON.stringify({
+                    backendToken: window.localStorage.getItem("backendToken"),
                     username: window.localStorage.getItem("username")
                 })
             });

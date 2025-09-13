@@ -7,6 +7,7 @@ import App from './App';
 import md5 from "md5";
 
 function LoginPage () {
+    const backend = process.env.REACT_APP_BACKEND;
     // const {spotifyPlayer, setSpotifyPlayer, songDetails, setSongDetails, isSearch, setIsSearch} = useContext(PlayerContext || null);
     const navigate = useNavigate();
     console.log("inside LoginPage.js");
@@ -24,8 +25,8 @@ function LoginPage () {
         const username = e.target.username.value;
         const hashedPassword = md5(e.target.password.value);
         console.log(hashedPassword);
-        
-        const loginSuccess = await fetch(`${BACKEND}/checkLoginCredentials`, {
+        console.log(backend);
+        const loginSuccess = await fetch(`${backend}/checkLoginCredentials`, {
             method: "POST",
             body : JSON.stringify({
                 username: username,
@@ -41,6 +42,7 @@ function LoginPage () {
         if (loginSuccessJSON.loginStatus === "success") {
             navigate('/');
             window.localStorage.setItem("username", username);
+            window.localStorage.setItem("backendToken", loginSuccessJSON.EnjoyyableToken);
         }
         else{
             document.getElementById("codered").style.display = "inline";

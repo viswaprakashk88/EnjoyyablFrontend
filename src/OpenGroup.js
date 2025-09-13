@@ -3,6 +3,7 @@ import { PlayerContext } from '.';
 import leftArrow from './leftArrow.png';
 
 function OpenGroup () {
+    const backend = process.env.REACT_APP_BACKEND;
     const {groupName, setGroupTab, groupMembers, createdOn, groupId} = useContext(PlayerContext);
     const cachedNames = window.localStorage.getItem("group_" + groupId) && window.localStorage.getItem("group_" + groupId) !== "undefined" ? JSON.parse(window.localStorage.getItem("group_" + groupId)) : [];
     const [groupMembersList,setGroupMembersList] = useState(cachedNames || []);
@@ -14,9 +15,10 @@ function OpenGroup () {
         if (!window.localStorage.getItem("group_" + groupId) || window.localStorage.getItem("group_" + groupId) === "undefined") {
             const getNames = async () => {
                 console.log(groupMembers);
-                var names = await fetch(`${BACKEND}/getNames`, {
+                var names = await fetch(`${backend}/getNames`, {
                     method: "POST",
                     body: JSON.stringify({
+                        backendToken: window.localStorage.getItem("backendToken"),
                         usernames:  groupMembers
                     }),
                     headers: {

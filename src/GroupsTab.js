@@ -3,18 +3,20 @@ import { PlayerContext } from '.';
 import GroupCard from './GroupCard';
 
 function GroupsTab () {
+    const backend = process.env.REACT_APP_BACKEND;
     const {groupTab, setGroupTab} = useContext(PlayerContext);
     const cachedGroups = window.localStorage.getItem("groups") ? JSON.parse(window.localStorage.getItem("groups")) : [];
     const [groupsList, setGroupsList] = useState(cachedGroups && cachedGroups.items || []);
 
     useState( async () => {
         if ( !window.localStorage.getItem("groups") ) {
-            var groups = await fetch (`${BACKEND}/getGroups`, {
+            var groups = await fetch (`${backend}/getGroups`, {
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json"
                 },
                 body : JSON.stringify({
+                    backendToken: window.localStorage.getItem("backendToken"),
                     username : window.localStorage.getItem("username")
                 })
             });

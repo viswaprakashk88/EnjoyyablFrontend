@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 function RequestCard ({userData}) {
+    const backend = process.env.REACT_APP_BACKEND;
     var name = userData.fromName;
     const username = userData.fromUsername;
     const [buttonText, setButtonText] = useState("Accept");
@@ -10,12 +11,13 @@ function RequestCard ({userData}) {
         document.getElementById("requestButton_" + e.target.value).classList.add("userCardRequestButtonDisabled");
         document.getElementById("requestButton_" + e.target.value).classList.remove("userCardRequestButtonEnabled");
         const time = e.target.value;
-        var acceptance = await fetch(`${BACKEND}/acceptRequest`, {
+        var acceptance = await fetch(`${backend}/acceptRequest`, {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json"
             },
             body : JSON.stringify({
+                backendToken: window.localStorage.getItem("backendToken"),
                 username : window.localStorage.getItem("username"),
                 time : time
             })

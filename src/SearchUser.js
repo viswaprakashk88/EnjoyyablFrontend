@@ -5,7 +5,7 @@ import SearchUserAnimation from './SearchUser.gif';
 
 
 function SearchUser () {
-
+    const backend = process.env.REACT_APP_BACKEND;
     const [currentSearch, setCurrentSearch] = useState("");
     const [searchedUserList, setSearchedUserList] = useState([]);
     const [load, setLoad] = useState("");
@@ -27,24 +27,26 @@ function SearchUser () {
             setSearched(true);
             setCurrentSearch("Showing Results For " + searchUserValue);
             //Retrieving Users having "searchUserValue" in their Name or Username
-            var users = await fetch(`${BACKEND}/searchUser`, {
+            var users = await fetch(`${backend}/searchUser`, {
                 method : "POST",
                 headers : {
                     "Content-Type": "application/json",
                 },
                 body : JSON.stringify({
+                    backendToken: window.localStorage.getItem("backendToken"),
                     userHint : searchUserValue,
                     username: window.localStorage.getItem("username")
                 })
             });
             users = await users.json();
             //Getting the connection requests sent by the current user 
-            var requests = await fetch(`${BACKEND}/getRequests`, {
+            var requests = await fetch(`${backend}/getRequests`, {
                 method : "POST",
                 headers : {
                     "Content-Type": "application/json",
                 },
                 body : JSON.stringify({
+                    backendToken: window.localStorage.getItem("backendToken"),
                     userHint : searchUserValue,
                     username: window.localStorage.getItem("username")
                 })

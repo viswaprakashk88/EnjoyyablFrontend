@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 function UserCard ({userData}) {
+    const backend = process.env.REACT_APP_BACKEND;
     const connections = JSON.parse(window.localStorage.getItem("connections"));
     const [friendStatus, setFriendStatus] = useState("Connect");
     var name = userData.name.split(' '),tempName="";
@@ -28,12 +29,13 @@ function UserCard ({userData}) {
         const nameCurrentUser = JSON.parse(window.localStorage.getItem("userInfo"));
 
 
-        var result = await fetch(`${BACKEND}/sendConnectionRequest`, {
+        var result = await fetch(`${backend}/sendConnectionRequest`, {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json",
             },
             body: JSON.stringify({
+                backendToken: window.localStorage.getItem("backendToken"),
                 sendFromUsername : window.localStorage.getItem("username"),
                 sendToUsername : splittedParts[0],
                 sendTime : date.getTime(),

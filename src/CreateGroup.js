@@ -4,6 +4,7 @@ import { PlayerContext } from '.';
 import LoadingAnimation from './LoadingAnimation.gif';
 
 function CreateGroup () {
+    const backend = process.env.REACT_APP_BACKEND;
     const {groupTab, setGroupTab} = useContext(PlayerContext);
     const [membersList, setMembersList] = useState([]);
     const [friendsList, setFriendsList] = useState([]);
@@ -20,12 +21,13 @@ function CreateGroup () {
         }
         else {
             const getFriends = async () => {
-                var response = await fetch (`${BACKEND}/getFriends`, {
+                var response = await fetch (`${backend}/getFriends`, {
                     method : "POST",
                     headers : {
                         "Content-Type" : "application/json"
                     },
                     body : JSON.stringify({
+                        backendToken: window.localStorage.getItem("backendToken"),
                         username : window.localStorage.getItem("username")
                     })
                 });
@@ -90,6 +92,7 @@ function CreateGroup () {
                 "Content-Type" : "application/json"
             },
             body : JSON.stringify({
+                backendToken: window.localStorage.getItem("backendToken"),
                 groupIdname : groupId
             })
         });
@@ -110,6 +113,7 @@ function CreateGroup () {
                 "Content-Type" : "application/json"
             },
             body : JSON.stringify({
+                backendToken: window.localStorage.getItem("backendToken"),
                 groupName : groupName,
                 groupIdname : groupId,
                 groupMembers : groupMembers,

@@ -124,6 +124,7 @@ function Player () {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          backendToken: window.localStorage.getItem("backendToken"),
           uris: [songDetails ? songDetails.uri : null]
         }),
       })
